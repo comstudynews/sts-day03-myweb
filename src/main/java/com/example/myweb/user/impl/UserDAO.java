@@ -1,65 +1,65 @@
 package com.example.myweb.user.impl;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.example.myweb.board.BoardVO;
 import com.example.myweb.user.UserVO;
 
 @Repository
 public class UserDAO {
-	public static final List<UserVO> memberList;
-	static {
-		memberList = new ArrayList<UserVO>();
-		memberList.add(new UserVO("hong", "1234", "관리자", "Admin"));
-		memberList.add(new UserVO("user1", "1234", "홍길동", "User"));
-		memberList.add(new UserVO("user2", "1234", "김길동", "User"));
-		memberList.add(new UserVO("user3", "1234", "이길동", "User"));
-		memberList.add(new UserVO("user4", "1234", "오징어", "User"));
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+	final String SQL_GET = "select * from users where id=?";
+	final String SQL_LIST = "select * from users order by id desc";
+	final String SQL_INSERT = "insert into users(id, password, name, role) values(?,?,?,?)";
+	final String SQL_UPDATE = "update users set password=?, name=?, role=? where id=?";
+	final String SQL_DELETE = "delete from users where id=?";
+	
+	class UserMapper implements RowMapper<UserVO> {
+		@Override
+		public UserVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+			UserVO user = new UserVO();
+			user.setId(rs.getString(1));
+			user.setPassword(rs.getString(2));
+			user.setName(rs.getString(3));
+			user.setRole(rs.getString(4));
+			return user;
+		}
 	}
 	
 	public List<UserVO> selectAll() {
 		System.out.println(">>> selectAll() 실행");
-		return memberList;
+		return jdbcTemplate.query(SQL_LIST, new UserMapper());
 	}
 	
 	public UserVO findById(UserVO dto) {
-		int idx = memberList.indexOf(dto);
-		UserVO member = null;
-		if(idx != -1) {
-			member = memberList.get(idx);
-		}
-		return member;
+		Object[] args = new Object[] {dto.getId()};
+		return jdbcTemplate.queryForObject(SQL_GET, args, new UserMapper());
 	}
 	
 	public void insert(UserVO dto) {
-		memberList.add(dto);
+		jdbcTemplate.update(SQL_INSERT, dto.getId(), dto.getPassword(), dto.getName(), dto.getRole());
 	}
 	
 	public void update(UserVO dto) {
-		int idx = memberList.indexOf(dto);
-		if(idx != -1) {
-			memberList.set(idx, dto);
-		}
+		jdbcTemplate.update(SQL_UPDATE, dto.getPassword(), dto.getName(), dto.getRole(), dto.getId());
 	}
 	
 	public void delete(UserVO dto) {
-		System.out.println("delete: " + dto);
-		int idx = memberList.indexOf(dto);
-		UserVO member = null;
-		if(idx != -1) {
-			memberList.remove(idx);
-		}
+		jdbcTemplate.update(SQL_DELETE, dto.getId());
 	}
 
 	public List<UserVO> getUserList(UserVO vo) {
-		List<UserVO> userList = new ArrayList<UserVO>();
-		for(int i=0; i<memberList.size(); i++) {
-			if(memberList.get(i).equals(vo)) {
-				userList.add(memberList.get(i));
-			}
-		}
-		return userList;
+		Object[] args = new Object[] {vo.getId()};
+		return jdbcTemplate.query(SQL_LIST, args, new UserMapper());
 	}
 }

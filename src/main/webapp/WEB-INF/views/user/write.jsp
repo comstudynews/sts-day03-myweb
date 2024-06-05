@@ -13,7 +13,7 @@
 		<table  class="table table-bordered">
 			<tr>
 				<th width="20%">ID</th>
-				<td width="80%"><input type="text" value="test" name="id"/></td>
+				<td width="80%"><input type="text" value="test2" name="id"/></td>
 			</tr>
 			<tr>
 				<th>PASSWORD</th>
@@ -21,7 +21,7 @@
 			</tr>
 			<tr>
 				<th>NAME</th>
-				<td><input type="text" value="테스트" name="name"/></td>
+				<td><input type="text" value="테스트2" name="name"/></td>
 			</tr>
 			<tr>
 				<th>ROLE</th>
