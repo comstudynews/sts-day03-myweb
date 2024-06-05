@@ -10,8 +10,22 @@
 <body>
 
 	<h1>글 상세보기</h1>
+	<table  class="table table-bordered">
+		<tr>
+			<th width="20%">ID</th><td width="80%">${user.id }</td>
+		</tr>
+		<tr>
+			<th>PASSWORD</th><td>${user.password }</td>
+		</tr>
+		<tr>
+			<th>NAME</th><td>${user.name }</td>
+		</tr>
+		<tr>
+			<th>ROLE</th><td>${user.role }</td>
+		</tr>
+	</table>
 	<a href="userList">글목록</a>
-	<a href="userUpdate?id=${board.id }">글수정</a>
-	<a href="userDelete?id=${board.id }">글삭제</a>
+	<a href="userUpdate?id=${user.id }">글수정</a>
+	<a href="userDelete?id=${user.id }">글삭제</a>
 </body>
 </html>

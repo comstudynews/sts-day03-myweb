@@ -10,16 +10,23 @@
 <body>
 
 	<h1>사용자 목록</h1>
+	<table  class="table table-bordered">
+		<tr>
+			<th>ID</th>
+			<th>PASSWORD</th>
+			<th>NAME</th>
+			<th>ROLE</th>
+		</tr>
 	<c:forEach var="user" items="${userList }">
-		<p>
-
-			<a href="userDetail?id=${board.id }">
-				<c:out value="${user.name }"></c:out>
-			<a href="userDelete?id=${board.id }">글삭제</a>
-		</p>
+		<tr>
+			<td><a href="userDetail?id=${user.id }">${user.id }</a></td>
+			<td>${user.password }</td>
+			<td>${user.name }</td>
+			<td>${user.role }</td>
+		</tr>
 	</c:forEach>
-
-<hr>
-<a href="userWriteForm">사용자 추가</a>
+	</table>
+	<hr>
+	<a href="userWrite">사용자 추가</a>
 </body>
 </html>

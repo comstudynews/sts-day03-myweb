@@ -2,49 +2,41 @@ package com.example.myweb.user.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.myweb.board.BoardVO;
 import com.example.myweb.user.UserService;
 import com.example.myweb.user.UserVO;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
-
-	@Override
-	public List<UserVO> getList(Object object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+	@Autowired
+	private UserDAO userDao;
 
 	@Override
 	public UserVO getOne(UserVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDao.findById(vo);
 	}
 
 	@Override
 	public List<UserVO> getList(UserVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println(">>> getList ...");
+		return userDao.selectAll();
 	}
 
 	@Override
 	public void insert(UserVO vo) {
-		// TODO Auto-generated method stub
-		
+		userDao.insert(vo);
 	}
 
 	@Override
 	public void update(UserVO vo) {
-		// TODO Auto-generated method stub
-		
+		userDao.update(vo);
 	}
 
 	@Override
 	public void delete(UserVO vo) {
-		// TODO Auto-generated method stub
-		
+		userDao.delete(vo);
 	}
-
 }
